@@ -12,6 +12,8 @@ const LoginMutation = gql `
   }
 `;
 
+const COMPANY_LOGO = "https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg";
+
 export default function Home() {
     const router = useRouter()
     const [loginResult, loginMutation] = useMutation(LoginMutation)
@@ -60,12 +62,12 @@ export default function Home() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             alt="Your Company"
-            src="https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg"
+            src={COMPANY_LOGO}
             className="mx-auto h-10 w-auto dark:hidden"
           />
           <img
             alt="Your Company"
-            src="https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg"
+            src={COMPANY_LOGO}
             className="mx-auto h-10 w-auto not-dark:hidden"
           />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 import { gql, useMutation } from 'urql';
+import { validateLoginForm } from '@/utils/validation';
 
 const LoginMutation = gql `
   mutation login($identifier: String!, $password: String!) {
@@ -13,6 +14,8 @@ const LoginMutation = gql `
 `;
 
 const COMPANY_LOGO = "https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg";
+
+
 
 export default function Home() {
     const router = useRouter()
@@ -28,16 +31,12 @@ export default function Home() {
 
     try {
       setError(null)
-      // Add validation before GraphQL call
-      if (!email || !password) {
-        setError('Email and password are required');
-        return;
-      }
       
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email as string)) {
-        setError('Please enter a valid email address');
-        return;
+      // Use validation function
+      const validationError = validateLoginForm(email, password)
+      if (validationError) {
+        setError(validationError)
+        return
       }
 
       const result = await loginMutation({ identifier: email, password })

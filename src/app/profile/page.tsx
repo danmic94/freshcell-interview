@@ -14,20 +14,16 @@ const UserProfileQuery = gql`
   }
 `;
 
-export default function Profile() {
+export default function Profile({id = '2'}: {id: string}) {
 
   const { isAuthenticated, isLoading, logout } = useAuth();
 
   const [result, reexecuteQuery] = useQuery({
     query: UserProfileQuery,
-    variables: { id: '2'}
+    variables: { id }
   });
 
   const { data, fetching, error } = result;
-
-  if (error) { console.log('We failed to fetch :', error) }
-
-  if (data) { console.log('Fetching was good!', data) }
 
   // Show loading while checking authentication
   if (isLoading || fetching) {

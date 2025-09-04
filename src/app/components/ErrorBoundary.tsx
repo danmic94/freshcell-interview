@@ -1,3 +1,5 @@
+"use client"
+
 import React, { Component, ErrorInfo, ReactNode } from "react";
 
 interface Props {
@@ -24,11 +26,8 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    if(this.props.fallback) {
-        return this.props.fallback
-    }
     if (this.state.hasError) {
-      return <h1>Sorry.. there was an error</h1>;
+      return this.props.fallback ? this.props.fallback : <h1>Sorry.. there was an error</h1>;
     }
 
     return this.props.children;

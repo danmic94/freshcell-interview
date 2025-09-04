@@ -49,7 +49,3 @@ src/
 ├── libs/          # GraphQL client configuration
 └── __tests__/     # Unit tests
 ```
-
-## GraphQL Endpoint
-
-`https://cms.trial-task.k8s.ext.fcse.io/graphql`

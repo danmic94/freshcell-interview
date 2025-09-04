@@ -1,12 +1,36 @@
 "use client"
 
 import { useAuth } from '@/hooks/useAuth'
+import { gql, useQuery } from 'urql';
+
+const UserProfileQuery = gql`
+  query user($id: ID!) {
+    user(id: $id) {
+      id
+      email
+      firstName
+      lastName
+    }
+  }
+`;
 
 export default function Profile() {
-  const { isAuthenticated, isLoading, logout } = useAuth()
+
+  const { isAuthenticated, isLoading, logout } = useAuth();
+
+  const [result, reexecuteQuery] = useQuery({
+    query: UserProfileQuery,
+    variables: { id: '2'}
+  });
+
+  const { data, fetching, error } = result;
+
+  if (error) { console.log('We failed to fetch :', error) }
+
+  if (data) { console.log('Fetching was good!', data) }
 
   // Show loading while checking authentication
-  if (isLoading) {
+  if (isLoading || fetching) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
@@ -28,7 +52,7 @@ export default function Profile() {
         <div className="px-4 py-6 sm:px-0">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Profile
+            Your Profile: {data?.user?.email}
             </h1>
             <button
               onClick={logout}
@@ -40,10 +64,10 @@ export default function Profile() {
           
           <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              Welcome to your dashboard!
+              Welcome to your dashboard {data?.user?.firstName} {data?.user?.lastName}!
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              You have successfully logged in. This is where you can add your dashboard content.
+              You have successfully logged in haivng user id {data?.user?.id}.
             </p>
           </div>
         </div>

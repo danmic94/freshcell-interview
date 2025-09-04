@@ -26,6 +26,18 @@ export default function Home() {
 
     try {
       setError(null)
+      // Add validation before GraphQL call
+      if (!email || !password) {
+        setError('Email and password are required');
+        return;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email as string)) {
+        setError('Please enter a valid email address');
+        return;
+      }
+
       const result = await loginMutation({ identifier: email, password })
       if (result.data?.login?.jwt) {
         // Store the JWT token (you might want to use localStorage or a state management solution)
@@ -48,12 +60,12 @@ export default function Home() {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             alt="Your Company"
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+            src="https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg"
             className="mx-auto h-10 w-auto dark:hidden"
           />
           <img
             alt="Your Company"
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+            src="https://www.freshcells.de/static/logo-freshcells-systems-engineering-635fbde7c635abdef0de4a086d164c74.svg"
             className="mx-auto h-10 w-auto not-dark:hidden"
           />
           <h2 className="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900 dark:text-white">
